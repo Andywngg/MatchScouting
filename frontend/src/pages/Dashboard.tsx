@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import toast from 'react-hot-toast';
-import { teamService, TeamData, getImageUrl } from '../services/api';
+import { teamService, TeamData } from '../services/api';
 
 const formatShootingType = (value: string) => {
   switch (value) {
@@ -38,7 +38,6 @@ const Dashboard = () => {
   const [teams, setTeams] = useState<TeamData[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterDrivetrain, setFilterDrivetrain] = useState('');
   const [filterShootingLocation, setFilterShootingLocation] = useState('');
   const [filterEndgameType, setFilterEndgameType] = useState('');
 
@@ -62,16 +61,13 @@ const Dashboard = () => {
     return teams.filter((team) => {
       const matchesTeam =
         searchTerm.trim() === '' || team.teamNumber.toString().includes(searchTerm.trim());
-      const matchesDrivetrain =
-        filterDrivetrain.trim() === '' ||
-        (team.drivetrainType || '').toLowerCase().includes(filterDrivetrain.toLowerCase());
       const matchesLocation =
         filterShootingLocation === '' || team.shootingLocationType === filterShootingLocation;
       const matchesEndgame = filterEndgameType === '' || team.endgameType === filterEndgameType;
 
-      return matchesTeam && matchesDrivetrain && matchesLocation && matchesEndgame;
+      return matchesTeam && matchesLocation && matchesEndgame;
     });
-  }, [teams, searchTerm, filterDrivetrain, filterShootingLocation, filterEndgameType]);
+  }, [teams, searchTerm, filterShootingLocation, filterEndgameType]);
 
   const handleExport = () => {
     const headers = [
@@ -87,7 +83,6 @@ const Dashboard = () => {
       'Shooting Location Type',
       'Shooting Location Notes',
       'Endgame',
-      'Drivetrain',
       'Notes',
     ];
 
@@ -104,7 +99,6 @@ const Dashboard = () => {
       team.shootingLocationType === 'multiple' ? 'Multiple spots' : 'Single spot',
       safeValue(team.shootingLocationNotes),
       formatEndgame(team.endgameType),
-      safeValue(team.drivetrainType),
       safeValue(team.notes),
     ]);
 
@@ -161,19 +155,12 @@ const Dashboard = () => {
         </div>
 
         <div className="mb-6 rounded-2xl border border-slate-700/60 bg-slate-900/75 p-4">
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
             <input
               type="text"
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
               placeholder="Search team #"
-              className="rounded-xl border border-slate-600 bg-slate-950/70 px-3 py-2 text-slate-100 placeholder-slate-400"
-            />
-            <input
-              type="text"
-              value={filterDrivetrain}
-              onChange={(event) => setFilterDrivetrain(event.target.value)}
-              placeholder="Filter drivetrain"
               className="rounded-xl border border-slate-600 bg-slate-950/70 px-3 py-2 text-slate-100 placeholder-slate-400"
             />
             <select
@@ -238,9 +225,6 @@ const Dashboard = () => {
                   <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-300">
                     Endgame
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-300">
-                    Image
-                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800">
@@ -266,21 +250,6 @@ const Dashboard = () => {
                       {team.shootingLocationType === 'multiple' ? 'Multiple' : 'Single'}
                     </td>
                     <td className="px-4 py-3 text-sm text-slate-200">{formatEndgame(team.endgameType)}</td>
-                    <td className="px-4 py-3 text-sm text-slate-200">
-                      {team.imageUrl ? (
-                        <img
-                          src={getImageUrl(team.imageUrl)}
-                          alt={`Team ${team.teamNumber} robot`}
-                          className="h-14 w-14 rounded-lg object-cover"
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            window.open(getImageUrl(team.imageUrl as string), '_blank');
-                          }}
-                        />
-                      ) : (
-                        '-'
-                      )}
-                    </td>
                   </tr>
                 ))}
               </tbody>

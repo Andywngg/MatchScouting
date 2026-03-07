@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import Button from '../components/Button';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import ImageUpload from '../components/ImageUpload';
 import { motion } from 'framer-motion';
 import endpoints from '../config/api';
 import { useNavigate } from 'react-router-dom';
@@ -25,14 +24,7 @@ interface ScoutingFormValues {
   shootingLocationType: 'single' | 'multiple';
   shootingLocationNotes: string;
   endgameType: string;
-  robotWidth: string;
-  robotLength: string;
-  robotHeight: string;
-  robotWeight: string;
-  drivetrainType: string;
   notes: string;
-  canShareRobotImage: boolean;
-  robotImage: File | null;
 }
 
 const toNullableNumber = (value: unknown, originalValue: unknown) => {
@@ -66,10 +58,6 @@ const ScoutingSchema = Yup.object().shape({
     then: (schema) => schema.required('One-spot location note is required'),
     otherwise: (schema) => schema.nullable(),
   }),
-  robotWidth: Yup.number().nullable().transform(toNullableNumber).min(0, 'Must be 0 or higher'),
-  robotLength: Yup.number().nullable().transform(toNullableNumber).min(0, 'Must be 0 or higher'),
-  robotHeight: Yup.number().nullable().transform(toNullableNumber).min(0, 'Must be 0 or higher'),
-  robotWeight: Yup.number().nullable().transform(toNullableNumber).min(0, 'Must be 0 or higher'),
 });
 
 const sectionAnimation = {
@@ -88,14 +76,6 @@ const endgameOptions = [
   { value: 'L1', label: 'L1' },
   { value: 'L2', label: 'L2' },
   { value: 'L3', label: 'L3' },
-];
-
-const drivetrainOptions = [
-  { value: '', label: 'Select drivetrain type' },
-  { value: 'swerve', label: 'Swerve Drive' },
-  { value: 'tank', label: 'Tank Drive' },
-  { value: 'mecanum', label: 'Mecanum Drive' },
-  { value: 'other', label: 'Other' },
 ];
 
 const Section: React.FC<{ title: string; subtitle?: string; delay: number; children: React.ReactNode }> = ({
@@ -135,17 +115,6 @@ const ScoutingForm = () => {
       const formData = new FormData();
 
       Object.entries(values).forEach(([key, value]) => {
-        if (key === 'canShareRobotImage') {
-          return;
-        }
-
-        if (key === 'robotImage') {
-          if (value instanceof File) {
-            formData.append('robotImage', value);
-          }
-          return;
-        }
-
         if (key === 'shootingTypes') {
           formData.append(key, JSON.stringify(value));
           return;
@@ -210,14 +179,7 @@ const ScoutingForm = () => {
             shootingLocationType: 'single',
             shootingLocationNotes: '',
             endgameType: '',
-            robotWidth: '',
-            robotLength: '',
-            robotHeight: '',
-            robotWeight: '',
-            drivetrainType: '',
             notes: '',
-            canShareRobotImage: false,
-            robotImage: null,
           }}
           validationSchema={ScoutingSchema}
           onSubmit={handleSubmit}
@@ -535,109 +497,7 @@ const ScoutingForm = () => {
                 </div>
               </Section>
 
-              <Section title="Robot Specs" delay={0.3}>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <div>
-                    <label htmlFor="robotWidth" className={labelClasses}>
-                      Width (in)
-                    </label>
-                    <input
-                      id="robotWidth"
-                      name="robotWidth"
-                      type="number"
-                      min="0"
-                      step="0.1"
-                      value={values.robotWidth}
-                      onChange={(event) => setFieldValue('robotWidth', event.target.value)}
-                      className={inputClasses}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="robotLength" className={labelClasses}>
-                      Length (in)
-                    </label>
-                    <input
-                      id="robotLength"
-                      name="robotLength"
-                      type="number"
-                      min="0"
-                      step="0.1"
-                      value={values.robotLength}
-                      onChange={(event) => setFieldValue('robotLength', event.target.value)}
-                      className={inputClasses}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="robotHeight" className={labelClasses}>
-                      Height (in)
-                    </label>
-                    <input
-                      id="robotHeight"
-                      name="robotHeight"
-                      type="number"
-                      min="0"
-                      step="0.1"
-                      value={values.robotHeight}
-                      onChange={(event) => setFieldValue('robotHeight', event.target.value)}
-                      className={inputClasses}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="robotWeight" className={labelClasses}>
-                      Weight (lb)
-                    </label>
-                    <input
-                      id="robotWeight"
-                      name="robotWeight"
-                      type="number"
-                      min="0"
-                      step="0.1"
-                      value={values.robotWeight}
-                      onChange={(event) => setFieldValue('robotWeight', event.target.value)}
-                      className={inputClasses}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="drivetrainType" className={labelClasses}>
-                    Drivetrain
-                  </label>
-                  <select
-                    id="drivetrainType"
-                    name="drivetrainType"
-                    value={values.drivetrainType}
-                    onChange={(event) => setFieldValue('drivetrainType', event.target.value)}
-                    className={inputClasses}
-                  >
-                    {drivetrainOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </Section>
-
-              <Section title="Photos and Notes" delay={0.35}>
-                <label className="flex items-center rounded-xl border border-slate-600/70 bg-slate-950/70 px-3 py-2 text-sm text-slate-100">
-                  <input
-                    type="checkbox"
-                    checked={values.canShareRobotImage}
-                    onChange={(event) => setFieldValue('canShareRobotImage', event.target.checked)}
-                    className="mr-2 h-4 w-4 accent-rose-400"
-                  />
-                  Team allows robot photo
-                </label>
-
-                {values.canShareRobotImage ? (
-                  <ImageUpload
-                    name="robotImage"
-                    label="Upload Robot Image"
-                    onUpload={(file) => setFieldValue('robotImage', file)}
-                  />
-                ) : null}
-
+              <Section title="Notes" delay={0.3}>
                 <div>
                   <label htmlFor="notes" className={labelClasses}>
                     Notes

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { TeamData, teamService, getImageUrl } from '../services/api';
+import { TeamData, teamService } from '../services/api';
 
 const formatShootingType = (value: string) => {
   switch (value) {
@@ -113,34 +113,14 @@ const TeamDetails = () => {
                 Shooting Spots: {team.shootingLocationType === 'multiple' ? 'Multiple spots' : 'Single spot'}
               </p>
               <p>Shooting Spot Notes: {showValue(team.shootingLocationNotes)}</p>
-            </div>
-          </section>
-
-          <section className="rounded-2xl border border-slate-700/60 bg-slate-900/75 p-5 text-slate-100">
-            <h2 className="text-xl font-semibold text-amber-100">Robot Specs</h2>
-            <div className="mt-3 space-y-2 text-sm">
-              <p>Width: {showValue(team.robotWidth, ' in')}</p>
-              <p>Length: {showValue(team.robotLength, ' in')}</p>
-              <p>Height: {showValue(team.robotHeight, ' in')}</p>
-              <p>Weight: {showValue(team.robotWeight, ' lb')}</p>
-              <p>Drivetrain: {showValue(team.drivetrainType)}</p>
               <p>Endgame: {formatEndgame(team.endgameType)}</p>
             </div>
           </section>
 
           <section className="rounded-2xl border border-slate-700/60 bg-slate-900/75 p-5 text-slate-100">
-            <h2 className="text-xl font-semibold text-amber-100">Notes and Photo</h2>
+            <h2 className="text-xl font-semibold text-amber-100">Notes</h2>
             <div className="mt-3 space-y-3 text-sm">
               <p className="whitespace-pre-wrap">{showValue(team.notes)}</p>
-              {team.imageUrl ? (
-                <img
-                  src={getImageUrl(team.imageUrl)}
-                  alt={`Team ${team.teamNumber} robot`}
-                  className="max-h-72 w-full rounded-xl object-cover"
-                />
-              ) : (
-                <p>No image uploaded.</p>
-              )}
             </div>
           </section>
         </div>
