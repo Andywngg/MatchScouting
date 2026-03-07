@@ -1,6 +1,6 @@
-# Team 1334 Pit Scouting (2026)
+# Team 1334 Match Scouting (2026)
 
-Pit scouting app for FRC events with:
+Match scouting app for FRC events with:
 
 - React frontend (`frontend`)
 - Express + TypeScript backend (`backend`)

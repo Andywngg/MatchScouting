@@ -79,7 +79,7 @@ const TeamDetails = () => {
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(251,146,60,0.15),transparent_35%),linear-gradient(180deg,#0f172a_10%,#020617_80%)] py-8">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="mb-6 rounded-2xl border border-slate-700/60 bg-slate-900/75 p-6">
-          <p className="text-xs uppercase tracking-[0.25em] text-rose-300">Pit Scouting Detail</p>
+          <p className="text-xs uppercase tracking-[0.25em] text-rose-300">Match Scouting Detail</p>
           <h1 className="text-4xl font-black text-slate-50">Team {team.teamNumber}</h1>
         </div>
 

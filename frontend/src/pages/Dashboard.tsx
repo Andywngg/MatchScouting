@@ -120,7 +120,7 @@ const Dashboard = () => {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'pit-scouting-2026.csv';
+    a.download = 'match-scouting-2026.csv';
     a.click();
     window.URL.revokeObjectURL(url);
   };
@@ -140,7 +140,7 @@ const Dashboard = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-slate-700/60 bg-slate-900/75 p-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.25em] text-rose-300">Pit Scouting</p>
+            <p className="text-xs uppercase tracking-[0.25em] text-rose-300">Match Scouting</p>
             <h1 className="text-3xl font-black text-slate-50">Dashboard 2026</h1>
           </div>
           <div className="flex flex-wrap gap-3">

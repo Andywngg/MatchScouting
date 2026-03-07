@@ -24,7 +24,7 @@ const storage = hasCloudinaryConfig
     ? new multer_storage_cloudinary_1.CloudinaryStorage({
         cloudinary: cloudinary_1.v2,
         params: {
-            folder: 'pit-scouting',
+            folder: 'match-scouting',
             allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
         },
     })

@@ -191,7 +191,7 @@ const ScoutingForm = () => {
           className="mb-8 rounded-2xl border border-amber-100/10 bg-slate-900/75 p-6 shadow-[0_24px_80px_-48px_rgba(251,113,133,0.85)] backdrop-blur"
         >
           <p className="text-xs uppercase tracking-[0.35em] text-rose-300">Team 1334</p>
-          <h1 className="mt-2 text-4xl font-black tracking-tight text-amber-50 sm:text-5xl">Pit Scouting 2026</h1>
+          <h1 className="mt-2 text-4xl font-black tracking-tight text-amber-50 sm:text-5xl">Match Scouting 2026</h1>
         </motion.header>
 
         <Formik<ScoutingFormValues>
