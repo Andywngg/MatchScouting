@@ -4,7 +4,7 @@ const getBaseUrl = () => {
   }
 
   if (process.env.NODE_ENV === 'production') {
-    return 'https://match-scouting-api.onrender.com';
+    return 'https://matchscouting-api.onrender.com';
   }
 
   return 'http://localhost:5001';

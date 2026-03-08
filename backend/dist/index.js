@@ -13,7 +13,18 @@ const teams_1 = __importDefault(require("./routes/teams"));
 const app = (0, express_1.default)();
 const port = process.env.PORT || 5001;
 const env = process.env.NODE_ENV || 'development';
-const corsOrigin = process.env.FRONTEND_URL || (env === 'production' ? true : 'http://localhost:3000');
+const normalizeOrigin = (origin) => {
+    const trimmed = origin.trim();
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+        return trimmed;
+    }
+    return `https://${trimmed}`;
+};
+const corsOrigin = process.env.FRONTEND_URL && process.env.FRONTEND_URL.trim() !== ''
+    ? normalizeOrigin(process.env.FRONTEND_URL)
+    : env === 'production'
+        ? true
+        : 'http://localhost:3000';
 app.use((0, cors_1.default)({
     origin: corsOrigin,
     credentials: true
