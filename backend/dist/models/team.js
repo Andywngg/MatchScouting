@@ -12,7 +12,6 @@ class Team extends sequelize_1.Model {
             teamNumber: {
                 type: sequelize_1.DataTypes.INTEGER,
                 allowNull: false,
-                unique: true,
             },
             scouterName: {
                 type: sequelize_1.DataTypes.STRING,

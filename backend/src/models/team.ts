@@ -34,7 +34,6 @@ class Team extends Model {
       teamNumber: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true,
       },
       scouterName: {
         type: DataTypes.STRING,
