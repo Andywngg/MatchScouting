@@ -33,21 +33,21 @@ const showValue = (value: string | number | null | undefined, suffix = '') =>
   value === null || value === undefined || value === '' ? '-' : `${value}${suffix}`;
 
 const TeamDetails = () => {
-  const { teamNumber } = useParams();
+  const { entryId } = useParams();
   const navigate = useNavigate();
   const [team, setTeam] = useState<TeamData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTeam = async () => {
-      if (!teamNumber || Number.isNaN(Number(teamNumber))) {
-        toast.error('Invalid team number');
+      if (!entryId || Number.isNaN(Number(entryId))) {
+        toast.error('Invalid entry');
         navigate('/dashboard');
         return;
       }
 
       try {
-        const data = await teamService.getTeam(Number(teamNumber));
+        const data = await teamService.getTeamById(Number(entryId));
         setTeam(data);
       } catch (error: any) {
         console.error('Error loading team:', error);
@@ -59,7 +59,7 @@ const TeamDetails = () => {
     };
 
     fetchTeam();
-  }, [teamNumber, navigate]);
+  }, [entryId, navigate]);
 
   if (loading) {
     return (

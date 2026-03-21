@@ -230,8 +230,8 @@ const Dashboard = () => {
               <tbody className="divide-y divide-slate-800">
                 {filteredTeams.map((team) => (
                   <tr
-                    key={team.teamNumber}
-                    onClick={() => navigate(`/team/${team.teamNumber}`)}
+                    key={team.id}
+                    onClick={() => navigate(`/entry/${team.id}`)}
                     className="cursor-pointer bg-slate-900/30 hover:bg-slate-800/70"
                   >
                     <td className="px-4 py-3 text-sm font-semibold text-amber-100">{team.teamNumber}</td>

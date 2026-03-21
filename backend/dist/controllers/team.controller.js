@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllTeams = exports.deleteTeam = exports.updateTeam = exports.getTeam = exports.createTeam = void 0;
+exports.getAllTeams = exports.deleteTeam = exports.updateTeam = exports.getTeamById = exports.getTeam = exports.createTeam = void 0;
 const models_1 = require("../models");
 const sequelize_1 = require("sequelize");
 const path_1 = __importDefault(require("path"));
@@ -182,6 +182,24 @@ const getTeam = async (req, res) => {
     }
 };
 exports.getTeam = getTeam;
+const getTeamById = async (req, res) => {
+    try {
+        const entryId = parseInt(req.params.id, 10);
+        if (Number.isNaN(entryId)) {
+            return res.status(400).json({ error: 'Invalid entry id' });
+        }
+        const team = await models_1.Team.findByPk(entryId);
+        if (!team) {
+            return res.status(404).json({ error: 'Team entry not found' });
+        }
+        return res.json(team);
+    }
+    catch (error) {
+        console.error('Error fetching team entry:', error);
+        return res.status(500).json({ error: 'Error fetching team entry', details: error.message });
+    }
+};
+exports.getTeamById = getTeamById;
 const updateTeam = async (req, res) => {
     try {
         const team = await models_1.Team.findOne({

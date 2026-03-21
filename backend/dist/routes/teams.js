@@ -36,6 +36,7 @@ const storage = hasCloudinaryConfig
     });
 const upload = (0, multer_1.default)({ storage });
 router.post('/', upload.single('robotImage'), team_controller_1.createTeam);
+router.get('/id/:id', team_controller_1.getTeamById);
 router.get('/:teamNumber', team_controller_1.getTeam);
 router.get('/', team_controller_1.getAllTeams);
 router.put('/:teamNumber', upload.single('robotImage'), team_controller_1.updateTeam);

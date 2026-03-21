@@ -12,7 +12,7 @@ const AppRoutes = () => {
         <Route index element={<Navigate to="/dashboard" />} />
         <Route path="scout" element={<ScoutingForm />} />
         <Route path="dashboard" element={<Dashboard />} />
-        <Route path="team/:teamNumber" element={<TeamDetails />} />
+        <Route path="entry/:entryId" element={<TeamDetails />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Route>
     </Routes>

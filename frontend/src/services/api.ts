@@ -19,6 +19,7 @@ api.interceptors.request.use((config) => {
 });
 
 export interface TeamData {
+  id: number;
   teamNumber: number;
   scouterName: string | null;
   autoCanScoreBalls: boolean;
@@ -59,6 +60,11 @@ export const getImageUrl = (path: string) => {
 export const teamService = {
   getTeam: async (teamNumber: number): Promise<TeamData> => {
     const response = await api.get(`/api/teams/${teamNumber}`);
+    return response.data;
+  },
+
+  getTeamById: async (entryId: number): Promise<TeamData> => {
+    const response = await api.get(`/api/teams/id/${entryId}`);
     return response.data;
   },
 

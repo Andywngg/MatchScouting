@@ -207,6 +207,27 @@ export const getTeam = async (req: Request, res: Response): Promise<Response> =>
   }
 };
 
+export const getTeamById = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const entryId = parseInt(req.params.id, 10);
+
+    if (Number.isNaN(entryId)) {
+      return res.status(400).json({ error: 'Invalid entry id' });
+    }
+
+    const team = await Team.findByPk(entryId);
+
+    if (!team) {
+      return res.status(404).json({ error: 'Team entry not found' });
+    }
+
+    return res.json(team);
+  } catch (error: any) {
+    console.error('Error fetching team entry:', error);
+    return res.status(500).json({ error: 'Error fetching team entry', details: error.message });
+  }
+};
+
 export const updateTeam = async (req: Request, res: Response): Promise<Response> => {
   try {
     const team = await Team.findOne({
